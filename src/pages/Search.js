@@ -10,18 +10,24 @@ import {
   Link,
   Progress,
   Text,
+  Image,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useFetchEffect from '../hooks/useFetchEffect';
-import { buildSearchMovieUrl } from '../connectors/tmdb';
+import {
+  buildImageUrl,
+  buildSearchMovieUrl,
+  imageFallback,
+} from '../connectors/tmdb';
 import { getYear, STATUS } from '../utils';
+import { Rating } from '@material-ui/lab';
 
 export default function Search() {
   const { terms } = useParams();
   const history = useHistory();
   const searchRef = React.useRef(null);
 
-  const handleSearch = event => {
+  const handleSearch = (event) => {
     event.preventDefault();
     const value = searchRef.current.value;
     if (value !== terms) {
@@ -29,38 +35,82 @@ export default function Search() {
     }
   };
 
-  const { status, data, error } = useFetchEffect(buildSearchMovieUrl(terms), !!terms);
+  const { status, data, error } = useFetchEffect(
+    buildSearchMovieUrl(terms),
+    !!terms
+  );
 
   return (
     <Container p={3}>
-      <Box as="form" onSubmit={handleSearch} w="100%" d="flex" mb={3}>
-        <Input placeholder="Search for a movie..." defaultValue={terms} ref={searchRef} mr={3} />
+      <Box as='form' onSubmit={handleSearch} w='100%' d='flex' mb={3}>
+        <Input
+          placeholder='Search for a movie...'
+          defaultValue={terms}
+          ref={searchRef}
+          mr={3}
+        />
         <IconButton
-          aria-label="Search for a movie"
+          aria-label='Search for a movie'
           icon={<SearchIcon />}
-          type="submit"
+          type='submit'
           isLoading={status === STATUS.PENDING}
         />
       </Box>
-      {status === STATUS.IDLE && <Text>Type some terms and submit for a quick search</Text>}
-      {status === STATUS.PENDING && <Progress size="xs" isIndeterminate />}
+      {status === STATUS.IDLE && (
+        <Text>Type some terms and submit for a quick search</Text>
+      )}
+      {status === STATUS.PENDING && <Progress size='xs' isIndeterminate />}
       {status === STATUS.REJECTED && (
         <Text>
           Error fetching movies for {terms}: {JSON.stringify(error)}
         </Text>
       )}
       {status === STATUS.RESOLVED && (
-        <UnorderedList>
-          {data.results.map(({ id, title, release_date }) => (
-            <ListItem key={id}>
-              <Link as={RouterLink} to={`/movies/${id}`}>
-                <Text as="span">{title} </Text>
-                <Text as="span" color="GrayText">
-                  {getYear(release_date)}
-                </Text>
-              </Link>
-            </ListItem>
-          ))}
+        <UnorderedList style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+          {data.results.map(
+            ({ id, title, release_date, vote_average, poster_path }) => {
+              return (
+                <ListItem key={id} style={{ height: '50px', margin: '0 4px' }}>
+                  <Link
+                    as={RouterLink}
+                    to={`/movies/${id}`}
+                    style={{ display: 'flex' }}
+                  >
+                    {console.log(buildImageUrl(poster_path, 'w300'))}
+                    <Image
+                      src={buildImageUrl(poster_path, 'w300')}
+                      alt='Poster'
+                      w='20px'
+                      maxW='20px'
+                      fallbackSrc={imageFallback}
+                    />
+                    <Text
+                      as='span'
+                      style={{ display: 'flex', marginLeft: '.5rem' }}
+                    >
+                      {title}
+                      <Rating
+                        name='average'
+                        value={vote_average / 2}
+                        disabled
+                      />
+                    </Text>
+                    <Text
+                      as='span'
+                      color='GrayText'
+                      style={{
+                        display: 'flex',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                      }}
+                    >
+                      {getYear(release_date)}
+                    </Text>
+                  </Link>
+                </ListItem>
+              );
+            }
+          )}
         </UnorderedList>
       )}
       {/* @todo: Display a message when no results */}
