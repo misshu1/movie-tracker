@@ -76,7 +76,6 @@ export default function Search() {
                     to={`/movies/${id}`}
                     style={{ display: 'flex' }}
                   >
-                    {console.log(buildImageUrl(poster_path, 'w300'))}
                     <Image
                       src={buildImageUrl(poster_path, 'w300')}
                       alt='Poster'

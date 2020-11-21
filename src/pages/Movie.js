@@ -16,6 +16,8 @@ import useMovie from '../hooks/useMovie';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
 import { getYear, STATUS } from '../utils';
 import WatchlistButton from '../components/WatchlistButton';
+import { Rating } from '@material-ui/lab';
+import { MovieGenre } from './style';
 
 export default function Movie() {
   const { movieId } = useParams();
@@ -29,7 +31,7 @@ export default function Movie() {
   }
   if (status === STATUS.PENDING) {
     return (
-      <Center minH="50vh">
+      <Center minH='50vh'>
         <CircularProgress isIndeterminate />
       </Center>
     );
@@ -44,44 +46,90 @@ export default function Movie() {
     );
   }
 
+  const renderMovieGenre = () => {
+    return movie.genres.map(({ name }) => {
+      return <MovieGenre>{name}</MovieGenre>;
+    });
+  };
+
   return (
-    <Container p={3} maxW="80em">
-      <HStack mb={3} justify="space-between">
+    <Container p={3} maxW='80em'>
+      <HStack mb={3} justify='space-between'>
         <IconButton
-          aria-label="Back"
+          aria-label='Back'
           icon={<ChevronLeftIcon />}
-          variant="outline"
+          variant='outline'
           fontSize={36}
-          colorScheme="teal"
+          colorScheme='teal'
           onClick={history.goBack}
         />
         <HStack>
-          <WatchlistButton movie={movie} status={updateStatus} update={updateMovie} />
+          <WatchlistButton
+            movie={movie}
+            status={updateStatus}
+            update={updateMovie}
+          />
           <IconButton
-            aria-label={isHistoryActive ? 'Remove from history' : 'Mark as watched'}
+            aria-label={
+              isHistoryActive ? 'Remove from history' : 'Mark as watched'
+            }
             icon={isHistoryActive ? <CheckIcon /> : <AddIcon />}
-            colorScheme="teal"
+            colorScheme='teal'
             variant={isHistoryActive ? 'solid' : 'outline'}
-            onClick={() => setHistoryActive(a => !a)}
+            onClick={() => setHistoryActive((a) => !a)}
           />
         </HStack>
       </HStack>
-      <HStack spacing={3} align="flex-start">
+      <HStack spacing={3} align='flex-start'>
         <Box>
           <Image
             src={buildImageUrl(movie.poster_path, 'w300')}
-            alt="Poster"
-            w="35vw"
+            alt='Poster'
+            w='35vw'
             maxW={300}
             fallbackSrc={imageFallback}
           />
         </Box>
-        <Box w="100%">
-          <HStack justify="space-between">
-            <Heading as="h2">{movie.title}</Heading>
-            <Text as="span" color="GrayText">
-              {getYear(movie.release_date)}
-            </Text>
+        <Box w='100%'>
+          <HStack justify='space-between'>
+            <Heading
+              as='h2'
+              style={{ display: 'flex', alignItems: 'center', width: '100%' }}
+            >
+              {movie.title} ({getYear(movie.release_date)})
+              <Rating
+                name='average'
+                value={movie.vote_average / 2}
+                disabled
+                style={{ marginLeft: '1rem' }}
+              />
+              <Text
+                as='span'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '.5rem',
+                  fontSize: '1rem',
+                  fontWeight: 400,
+                }}
+              >
+                ({movie.vote_count})
+              </Text>
+              <Text
+                as='span'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '.5rem',
+                  flex: 1,
+                  fontSize: '1rem',
+                  fontWeight: 400,
+                  justifyContent: 'flex-end',
+                }}
+              >
+                {renderMovieGenre()}
+              </Text>
+            </Heading>
           </HStack>
           <Text>{movie.overview}</Text>
         </Box>

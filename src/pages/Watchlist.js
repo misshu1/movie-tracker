@@ -24,7 +24,7 @@ export default function Watchlist() {
   }
   if (status === STATUS.PENDING) {
     return (
-      <Center minH="50vh">
+      <Center minH='50vh'>
         <CircularProgress isIndeterminate />
       </Center>
     );
@@ -38,18 +38,37 @@ export default function Watchlist() {
   }
 
   return (
-    <Container p={3} maxW="80em">
+    <Container p={3} maxW='80em'>
       <SimpleGrid minChildWidth={150} spacing={3}>
-        {movies.map(movie => (
-          <Box as={Link} to={`/movies/${movie.id}`} key={movie.id} pos="relative" noOfLines={2}>
-            <Badge variant="solid" colorScheme="teal" pos="absolute" top={1} right={1}>
+        {movies.map((movie) => (
+          <Box
+            as={Link}
+            to={`/movies/${movie.id}`}
+            key={movie.id}
+            pos='relative'
+            noOfLines={2}
+            style={{ maxWidth: '15rem' }}
+          >
+            <Badge
+              variant='solid'
+              colorScheme='teal'
+              pos='absolute'
+              top={1}
+              right={1}
+            >
               {movie.vote_average}
             </Badge>
             <Tooltip label={movie.title}>
               <Image
-                src={buildImageUrl(movie.poster_path, 'w300')}
-                alt="Poster"
+                src={buildImageUrl(movie.poster_path, 'w500')}
+                alt='Poster'
                 fallbackSrc={imageFallback}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  maxHeight: '80%',
+                }}
               />
             </Tooltip>
             <Text>{movie.title}</Text>
