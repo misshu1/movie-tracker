@@ -21,11 +21,22 @@ import {
 } from '../connectors/tmdb';
 import { getYear, STATUS } from '../utils';
 import { Rating } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  ratingColorEmpty: {
+    color: '#ccc',
+  },
+  ratingColor: {
+    color: 'teal',
+  },
+});
 
 export default function Search() {
   const { terms } = useParams();
   const history = useHistory();
   const searchRef = React.useRef(null);
+  const classes = useStyles();
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -85,14 +96,15 @@ export default function Search() {
                     />
                     <Text
                       as='span'
-                      style={{ display: 'flex', marginLeft: '.5rem' }}
+                      style={{
+                        display: 'block',
+                        marginLeft: '.5rem',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
                     >
-                      {title}
-                      <Rating
-                        name='average'
-                        value={vote_average / 2}
-                        disabled
-                      />
+                      {title} ({getYear(release_date)})
                     </Text>
                     <Text
                       as='span'
@@ -103,7 +115,15 @@ export default function Search() {
                         justifyContent: 'flex-end',
                       }}
                     >
-                      {getYear(release_date)}
+                      <Rating
+                        name='average'
+                        value={vote_average / 2}
+                        disabled
+                        classes={{
+                          iconEmpty: classes.ratingColorEmpty,
+                          iconFilled: classes.ratingColor,
+                        }}
+                      />
                     </Text>
                   </Link>
                 </ListItem>

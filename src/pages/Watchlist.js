@@ -55,8 +55,9 @@ export default function Watchlist() {
               pos='absolute'
               top={1}
               right={1}
+              textTransform='lowercase'
             >
-              {movie.vote_average}
+              {movie.vote_average !== 0 ? `${movie.vote_average / 2} of 5` : 0}
             </Badge>
             <Tooltip label={movie.title}>
               <Image

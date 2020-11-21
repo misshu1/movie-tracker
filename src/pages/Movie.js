@@ -18,11 +18,22 @@ import { getYear, STATUS } from '../utils';
 import WatchlistButton from '../components/WatchlistButton';
 import { Rating } from '@material-ui/lab';
 import { MovieGenre } from './style';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  ratingColorEmpty: {
+    color: '#ccc',
+  },
+  ratingColor: {
+    color: 'teal',
+  },
+});
 
 export default function Movie() {
   const { movieId } = useParams();
   const history = useHistory();
   const [isHistoryActive, setHistoryActive] = React.useState(false); // temp state, for UI only, should be removed when implemented properly
+  const classes = useStyles();
 
   const { movie, status, error, updateStatus, updateMovie } = useMovie(movieId);
 
@@ -80,7 +91,12 @@ export default function Movie() {
           />
         </HStack>
       </HStack>
-      <HStack spacing={3} align='flex-start'>
+      <HStack
+        spacing={3}
+        align='flex-start'
+        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+        style={{ gap: '1rem' }}
+      >
         <Box>
           <Image
             src={buildImageUrl(movie.poster_path, 'w300')}
@@ -90,46 +106,52 @@ export default function Movie() {
             fallbackSrc={imageFallback}
           />
         </Box>
-        <Box w='100%'>
-          <HStack justify='space-between'>
+        <Box w='100%' marginLeft='0 !important'>
+          <HStack
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            }}
+          >
             <Heading
               as='h2'
               style={{ display: 'flex', alignItems: 'center', width: '100%' }}
             >
               {movie.title} ({getYear(movie.release_date)})
+            </Heading>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                margin: '.5rem 0',
+                fontWeight: 400,
+              }}
+            >
+              {renderMovieGenre()}
+            </div>
+            <Text
+              as='span'
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: '.5rem',
+                fontSize: '1rem',
+                fontWeight: 400,
+              }}
+            >
               <Rating
                 name='average'
                 value={movie.vote_average / 2}
                 disabled
-                style={{ marginLeft: '1rem' }}
+                classes={{
+                  iconEmpty: classes.ratingColorEmpty,
+                  iconFilled: classes.ratingColor,
+                }}
               />
-              <Text
-                as='span'
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: '.5rem',
-                  fontSize: '1rem',
-                  fontWeight: 400,
-                }}
-              >
-                ({movie.vote_count})
-              </Text>
-              <Text
-                as='span'
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: '.5rem',
-                  flex: 1,
-                  fontSize: '1rem',
-                  fontWeight: 400,
-                  justifyContent: 'flex-end',
-                }}
-              >
-                {renderMovieGenre()}
-              </Text>
-            </Heading>
+              ({movie.vote_count})
+            </Text>
           </HStack>
           <Text>{movie.overview}</Text>
         </Box>
