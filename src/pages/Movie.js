@@ -15,7 +15,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import useMovie from '../hooks/useMovie';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
 import { getYear, STATUS } from '../utils';
-import WatchlistButton from '../components/WatchlistButton';
+import FavoriteButton from '../components/FavoriteButton';
 import { Rating } from '@material-ui/lab';
 import { MovieGenre } from './style';
 import { makeStyles } from '@material-ui/core';
@@ -75,7 +75,7 @@ export default function Movie() {
           onClick={history.goBack}
         />
         <HStack>
-          <WatchlistButton
+          <FavoriteButton
             movie={movie}
             status={updateStatus}
             update={updateMovie}

@@ -4,7 +4,7 @@ import Header from './Header';
 import Home from '../pages/Home';
 import Search from '../pages/Search';
 import Movie from '../pages/Movie';
-import Watchlist from '../pages/Watchlist';
+import Favorites from '../pages/Favorites';
 import History from '../pages/History';
 import Recommendations from '../pages/Recommendations';
 
@@ -14,25 +14,25 @@ export default function App() {
       <>
         <Header />
         <Switch>
-          <Route path="/search" exact>
+          <Route path='/search' exact>
             <Search />
           </Route>
-          <Route path="/search/:terms">
+          <Route path='/search/:terms'>
             <Search />
           </Route>
-          <Route path="/movies/:movieId" exact>
+          <Route path='/movies/:movieId' exact>
             <Movie />
           </Route>
-          <Route path="/watchlist" exact>
-            <Watchlist />
+          <Route path='/favorites' exact>
+            <Favorites />
           </Route>
-          <Route path="/history" exact>
+          <Route path='/history' exact>
             <History />
           </Route>
-          <Route path="/recommendations" exact>
+          <Route path='/recommendations' exact>
             <Recommendations />
           </Route>
-          <Route path="/">
+          <Route path='/'>
             <Home />
           </Route>
         </Switch>

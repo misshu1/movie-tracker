@@ -22,6 +22,10 @@ router.get('/movies/:movieId', async (req, res) => {
   await sleep(); // force increase latency, simulates real life experience. Delete this on prod
   if (!movie) {
     const tmdbMovie = await fetch(buildMovieUrl(movieId));
+    if (tmdbMovie.status < 200 || tmdbMovie.status >= 300) {
+      return res.sendStatus(tmdbMovie.status);
+    }
+
     const tmdbMovieJson = await tmdbMovie.json();
     res.send(tmdbMovieJson);
   } else {
@@ -43,9 +47,9 @@ router.put('/movies/:movieId', async (req, res) => {
   res.send(movie.value);
 });
 
-router.get('/watchlist', async (req, res) => {
+router.get('/favorites', async (req, res) => {
   const movies = await db.movies
-    .find({ watchlist: 'listed' })
+    .find({ favorite: 'listed' })
     .sort(['release_date', -1])
     .limit(100)
     .toArray();

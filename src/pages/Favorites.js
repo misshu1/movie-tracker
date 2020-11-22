@@ -13,13 +13,13 @@ import {
 import { Link } from 'react-router-dom';
 import useFetchEffect from '../hooks/useFetchEffect';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
-import { FAVORITES, HISTORY, HISTORY_URL } from '../connectors/api';
+import { FAVORITES, FAVORITES_URL, HISTORY } from '../connectors/api';
 import { STATUS } from '../utils';
-import { BadgeContainer } from './style';
 import { StarIcon, TimeIcon } from '@chakra-ui/icons';
+import { BadgeContainer } from './style';
 
-export default function History() {
-  const { status, data: movies, error } = useFetchEffect(`${HISTORY_URL}`);
+export default function Favorites() {
+  const { status, data: movies, error } = useFetchEffect(`${FAVORITES_URL}`);
 
   if (status === STATUS.IDLE) {
     return null;
@@ -64,7 +64,6 @@ export default function History() {
                   </Tooltip>
                 )}
               </BadgeContainer>
-
               <Box
                 as={Link}
                 to={`/movies/${movie.id}`}
