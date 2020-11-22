@@ -1,9 +1,13 @@
-const { Progress } = require('@chakra-ui/react');
 const express = require('express');
+const fetch = require('node-fetch');
 const db = require('./db');
 const { sleep } = require('./utils');
 
 const router = express.Router();
+const buildUrl = (path, query = '') =>
+  `https://api.themoviedb.org/3/${path}?api_key=${process.env.REACT_APP_TMDB_API}&${query}`;
+
+const buildMovieUrl = (movieId) => buildUrl(`movie/${movieId}`);
 
 // Get all = get('movies')
 // get one = get('movies/:movieId)
@@ -17,7 +21,9 @@ router.get('/movies/:movieId', async (req, res) => {
 
   await sleep(); // force increase latency, simulates real life experience. Delete this on prod
   if (!movie) {
-    res.sendStatus(404);
+    const tmdbMovie = await fetch(buildMovieUrl(movieId));
+    const tmdbMovieJson = await tmdbMovie.json();
+    res.send(tmdbMovieJson);
   } else {
     res.send(movie);
   }
@@ -30,7 +36,7 @@ router.put('/movies/:movieId', async (req, res) => {
   const movie = await db.movies.findOneAndUpdate(
     { movieId },
     { $set: movieData },
-    { returnOriginal: false, upsert: true },
+    { returnOriginal: false, upsert: true }
   );
 
   await sleep();
@@ -40,6 +46,17 @@ router.put('/movies/:movieId', async (req, res) => {
 router.get('/watchlist', async (req, res) => {
   const movies = await db.movies
     .find({ watchlist: 'listed' })
+    .sort(['release_date', -1])
+    .limit(100)
+    .toArray();
+
+  await sleep();
+  res.send(movies);
+});
+
+router.get('/history', async (req, res) => {
+  const movies = await db.movies
+    .find({ history: 'watched' })
     .sort(['release_date', -1])
     .limit(100)
     .toArray();

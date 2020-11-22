@@ -10,7 +10,7 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, AddIcon, CheckIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useParams, useHistory } from 'react-router-dom';
 import useMovie from '../hooks/useMovie';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
@@ -19,6 +19,7 @@ import WatchlistButton from '../components/WatchlistButton';
 import { Rating } from '@material-ui/lab';
 import { MovieGenre } from './style';
 import { makeStyles } from '@material-ui/core';
+import HistoryButton from '../components/Historybutton';
 
 const useStyles = makeStyles({
   ratingColorEmpty: {
@@ -32,7 +33,6 @@ const useStyles = makeStyles({
 export default function Movie() {
   const { movieId } = useParams();
   const history = useHistory();
-  const [isHistoryActive, setHistoryActive] = React.useState(false); // temp state, for UI only, should be removed when implemented properly
   const classes = useStyles();
 
   const { movie, status, error, updateStatus, updateMovie } = useMovie(movieId);
@@ -58,9 +58,9 @@ export default function Movie() {
   }
 
   const renderMovieGenre = () => {
-    return movie.genres.map(({ name }) => {
-      return <MovieGenre>{name}</MovieGenre>;
-    });
+    return movie?.genres.map(({ name }) => (
+      <MovieGenre key={name}>{name}</MovieGenre>
+    ));
   };
 
   return (
@@ -80,14 +80,10 @@ export default function Movie() {
             status={updateStatus}
             update={updateMovie}
           />
-          <IconButton
-            aria-label={
-              isHistoryActive ? 'Remove from history' : 'Mark as watched'
-            }
-            icon={isHistoryActive ? <CheckIcon /> : <AddIcon />}
-            colorScheme='teal'
-            variant={isHistoryActive ? 'solid' : 'outline'}
-            onClick={() => setHistoryActive((a) => !a)}
+          <HistoryButton
+            movie={movie}
+            status={updateStatus}
+            update={updateMovie}
           />
         </HStack>
       </HStack>
@@ -125,7 +121,7 @@ export default function Movie() {
                 display: 'flex',
                 flexWrap: 'wrap',
                 alignItems: 'center',
-                margin: '.5rem 0',
+                margin: '1rem 0 0.5rem 0',
                 fontWeight: 400,
               }}
             >
@@ -136,9 +132,9 @@ export default function Movie() {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                marginLeft: '.5rem',
                 fontSize: '1rem',
                 fontWeight: 400,
+                margin: 0,
               }}
             >
               <Rating
@@ -153,7 +149,7 @@ export default function Movie() {
               ({movie.vote_count})
             </Text>
           </HStack>
-          <Text>{movie.overview}</Text>
+          <Text marginTop='1rem'>{movie.overview}</Text>
         </Box>
       </HStack>
     </Container>
