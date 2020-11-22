@@ -12,6 +12,7 @@ export const BadgeContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     color: rgb(242, 242, 242);
     width: 4rem;
     background-color: teal;

@@ -47,7 +47,7 @@ export default function Favorites() {
           const isWatched = movie.history === HISTORY.WATCHED;
 
           return (
-            <div style={{ position: 'relative' }}>
+            <div key={movie.id} style={{ position: 'relative' }}>
               <BadgeContainer>
                 {isFavorite && (
                   <Tooltip label='Favorite'>
@@ -67,7 +67,6 @@ export default function Favorites() {
               <Box
                 as={Link}
                 to={`/movies/${movie.id}`}
-                key={movie.id}
                 pos='relative'
                 noOfLines={2}
                 style={{ maxWidth: '15rem' }}
