@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 
 import { Link, Box, Heading, Flex, Button, Container } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MenuItem = ({ to, children }) => (
   <Link as={RouterLink} to={to} mt={{ base: 4, sm: 0 }} mr={6} display='block'>
@@ -37,7 +37,7 @@ export default function Header() {
 
           <Box display={{ base: 'block', sm: 'none' }} onClick={handleToggle}>
             <Button bg='transparent' padding={0}>
-              <HamburgerIcon w={12} />
+              <FontAwesomeIcon icon={['fas', 'bars']} size='lg' />
             </Button>
           </Box>
 

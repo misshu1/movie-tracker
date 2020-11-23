@@ -15,8 +15,8 @@ import useFetchEffect from '../hooks/useFetchEffect';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
 import { FAVORITES, FAVORITES_URL, HISTORY } from '../connectors/api';
 import { STATUS } from '../utils';
-import { StarIcon, TimeIcon } from '@chakra-ui/icons';
 import { BadgeContainer } from './style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Favorites() {
   const { status, data: movies, error } = useFetchEffect(`${FAVORITES_URL}`);
@@ -52,14 +52,14 @@ export default function Favorites() {
                 {isFavorite && (
                   <Tooltip label='Favorite'>
                     <div className='badge'>
-                      <StarIcon w={5} h={5} color='white' />
+                      <FontAwesomeIcon icon={['fas', 'heart']} size='lg' />
                     </div>
                   </Tooltip>
                 )}
                 {isWatched && (
                   <Tooltip label='Watched'>
                     <div className='badge'>
-                      <TimeIcon w={5} h={5} color='white' />
+                      <FontAwesomeIcon icon={['far', 'clock']} size='lg' />
                     </div>
                   </Tooltip>
                 )}

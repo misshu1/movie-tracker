@@ -12,7 +12,6 @@ import {
   Text,
   Image,
 } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
 import useFetchEffect from '../hooks/useFetchEffect';
 import {
   buildImageUrl,
@@ -22,6 +21,7 @@ import {
 import { getYear, STATUS } from '../utils';
 import { Rating } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const useStyles = makeStyles({
   ratingColorEmpty: {
@@ -62,7 +62,7 @@ export default function Search() {
         />
         <IconButton
           aria-label='Search for a movie'
-          icon={<SearchIcon />}
+          icon={<FontAwesomeIcon icon={['fas', 'search']} size='lg' />}
           type='submit'
           isLoading={status === STATUS.PENDING}
         />
@@ -118,7 +118,7 @@ export default function Search() {
                       <Rating
                         name='average'
                         value={vote_average / 2}
-                        disabled
+                        readOnly
                         classes={{
                           iconEmpty: classes.ratingColorEmpty,
                           iconFilled: classes.ratingColor,

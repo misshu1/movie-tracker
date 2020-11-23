@@ -1,8 +1,8 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { AddIcon, CheckIcon } from '@chakra-ui/icons';
 import { STATUS } from '../utils';
 import { HISTORY } from '../connectors/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function HistoryButton({ movie, status, update }) {
   const toggleHistory = () => {
@@ -25,7 +25,12 @@ export default function HistoryButton({ movie, status, update }) {
       <Tooltip label={label}>
         <IconButton
           aria-label={label}
-          icon={isWatched ? <CheckIcon /> : <AddIcon />}
+          icon={
+            <FontAwesomeIcon
+              icon={[isWatched ? 'fas' : 'far', 'clock']}
+              size='lg'
+            />
+          }
           colorScheme='teal'
           variant={isWatched ? 'solid' : 'outline'}
           isLoading={status === STATUS.PENDING}

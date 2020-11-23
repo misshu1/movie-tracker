@@ -1,8 +1,8 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
 import { STATUS } from '../utils';
 import { FAVORITES } from '../connectors/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function FavoriteButton({ movie, status, update }) {
   const toglleAddToFavorites = () => {
@@ -21,7 +21,12 @@ export default function FavoriteButton({ movie, status, update }) {
     <Tooltip label={label}>
       <IconButton
         aria-label={label}
-        icon={<StarIcon />}
+        icon={
+          <FontAwesomeIcon
+            icon={[isFavorite ? 'fas' : 'far', 'heart']}
+            size='lg'
+          />
+        }
         colorScheme='teal'
         variant={isFavorite ? 'solid' : 'outline'}
         isLoading={status === STATUS.PENDING}

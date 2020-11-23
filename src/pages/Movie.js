@@ -10,7 +10,6 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react';
-import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { useParams, useHistory } from 'react-router-dom';
 import useMovie from '../hooks/useMovie';
 import { buildImageUrl, imageFallback } from '../connectors/tmdb';
@@ -20,6 +19,7 @@ import { Rating } from '@material-ui/lab';
 import { MovieGenre } from './style';
 import { makeStyles } from '@material-ui/core';
 import HistoryButton from '../components/Historybutton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const useStyles = makeStyles({
   ratingColorEmpty: {
@@ -68,7 +68,7 @@ export default function Movie() {
       <HStack mb={3} justify='space-between'>
         <IconButton
           aria-label='Back'
-          icon={<ChevronLeftIcon />}
+          icon={<FontAwesomeIcon icon={['fas', 'chevron-left']} size='xs' />}
           variant='outline'
           fontSize={36}
           colorScheme='teal'
@@ -140,7 +140,7 @@ export default function Movie() {
               <Rating
                 name='average'
                 value={movie.vote_average / 2}
-                disabled
+                readOnly
                 classes={{
                   iconEmpty: classes.ratingColorEmpty,
                   iconFilled: classes.ratingColor,

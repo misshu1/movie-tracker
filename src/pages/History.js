@@ -16,7 +16,7 @@ import { buildImageUrl, imageFallback } from '../connectors/tmdb';
 import { FAVORITES, HISTORY, HISTORY_URL } from '../connectors/api';
 import { STATUS } from '../utils';
 import { BadgeContainer } from './style';
-import { StarIcon, TimeIcon } from '@chakra-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function History() {
   const { status, data: movies, error } = useFetchEffect(`${HISTORY_URL}`);
@@ -52,14 +52,14 @@ export default function History() {
                 {isFavorite && (
                   <Tooltip label='Favorite'>
                     <div className='badge'>
-                      <StarIcon w={5} h={5} color='white' />
+                      <FontAwesomeIcon icon={['fas', 'heart']} size='lg' />
                     </div>
                   </Tooltip>
                 )}
                 {isWatched && (
                   <Tooltip label='Watched'>
                     <div className='badge'>
-                      <TimeIcon w={5} h={5} color='white' />
+                      <FontAwesomeIcon icon={['far', 'clock']} size='lg' />
                     </div>
                   </Tooltip>
                 )}
