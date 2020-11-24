@@ -3,7 +3,7 @@
 
 const URL = '/api';
 
-export const WATCHLIST = {
+export const FAVORITES = {
   LISTED: 'listed',
   REMOVED: 'removed',
 };
@@ -13,4 +13,5 @@ export const HISTORY = {
 };
 
 export const MOVIES_URL = `${URL}/movies`;
-export const WATCHLIST_URL = `${URL}/watchlist`;
+export const FAVORITES_URL = `${URL}/favorites`;
+export const HISTORY_URL = `${URL}/history`;
