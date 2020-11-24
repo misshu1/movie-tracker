@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const BadgeContainer = styled.div`
   display: grid;
-  gap: 0.25rem;
+  gap: 0.3rem;
   position: absolute;
   z-index: 10;
   left: -5px;
@@ -14,11 +14,12 @@ export const BadgeContainer = styled.div`
     align-items: center;
     position: relative;
     color: rgb(242, 242, 242);
-    width: 4rem;
+    width: 3.5rem;
     background-color: teal;
     padding: 0.2rem;
     border-top-right-radius: 0.2rem;
     border-bottom-right-radius: 0.2rem;
+    border-top-left-radius: 0.2rem;
     overflow: unset;
 
     &:before {

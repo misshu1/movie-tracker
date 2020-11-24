@@ -7,7 +7,6 @@ import {
   Container,
   Box,
   SimpleGrid,
-  Badge,
   Tooltip,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
@@ -49,6 +48,13 @@ export default function Favorites() {
           return (
             <div key={movie.id} style={{ position: 'relative' }}>
               <BadgeContainer>
+                {movie.vote_average !== 0 && (
+                  <Tooltip label={`${movie.vote_average / 2} Rating`}>
+                    <div className='badge'>
+                      <FontAwesomeIcon icon={['fas', 'star']} size='lg' />
+                    </div>
+                  </Tooltip>
+                )}
                 {isFavorite && (
                   <Tooltip label='Favorite'>
                     <div className='badge'>
@@ -71,18 +77,6 @@ export default function Favorites() {
                 noOfLines={2}
                 style={{ maxWidth: '15rem' }}
               >
-                <Badge
-                  variant='solid'
-                  colorScheme='teal'
-                  pos='absolute'
-                  top={1}
-                  right={1}
-                  textTransform='lowercase'
-                >
-                  {movie.vote_average !== 0
-                    ? `${movie.vote_average / 2} of 5`
-                    : 0}
-                </Badge>
                 <Tooltip label={movie.title}>
                   <Image
                     src={buildImageUrl(movie.poster_path, 'w500')}

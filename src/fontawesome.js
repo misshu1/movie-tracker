@@ -6,6 +6,7 @@ import {
   faBars,
   faSearch,
   faChevronLeft,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock as faClock2,
@@ -19,5 +20,6 @@ library.add(
   faClock2,
   faBars,
   faSearch,
-  faChevronLeft
+  faChevronLeft,
+  faStar
 );
