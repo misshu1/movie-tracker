@@ -42,7 +42,7 @@ export default function History() {
     <Container p={3} maxW='80em'>
       <SimpleGrid minChildWidth={150} spacing={3}>
         {movies
-          .sort((a, b) => new Date(a.historyDate) - new Date(b.historyDate))
+          .sort((a, b) => new Date(b.historyDate) - new Date(a.historyDate))
           .map((movie) => {
             const isFavorite = movie.favorite === FAVORITES.LISTED;
             const isWatched = movie.history === HISTORY.WATCHED;
